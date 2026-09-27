@@ -28,10 +28,17 @@ font-size:16px;font-weight:750}
 .msg{min-height:24px;margin-top:10px;font-size:14px;font-weight:650}
 .hint{font-size:12px;color:#786c65;margin-top:2px}
 @media(max-width:360px){.code{gap:3px}.code input{font-size:15px;border-radius:6px}.hero{height:235px}}
+
+.celebrate{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:9999}
+.balloon{position:absolute;bottom:-120px;width:48px;height:62px;border-radius:50% 50% 46% 46%;background:hsl(var(--h) 75% 62%);box-shadow:inset -8px -8px 0 #0001;animation:floatUp var(--d) ease-in forwards}
+.balloon:after{content:"";position:absolute;left:23px;top:60px;width:2px;height:70px;background:#7a6b65}
+.confetti{position:absolute;top:-20px;width:9px;height:15px;background:hsl(var(--h) 80% 58%);animation:fall var(--d) linear forwards}
+@keyframes floatUp{to{transform:translateY(-125vh) rotate(var(--r));opacity:.15}}
+@keyframes fall{to{transform:translateY(110vh) rotate(900deg);opacity:.7}}
 </style>
 </head>
 <body>
-<main class="card">
+<div class="celebrate" id="celebrate"></div><main class="card">
   <div class="hero">
     <img src="mama.jpg" alt="Narozeninová fotografie">
     <div class="heroText"><small>Jen pro tebe</small><h1>Všechno nejlepší, mami! ❤️</h1></div>
@@ -57,10 +64,15 @@ for(let i=0;i<17;i++){
   wrap.appendChild(el);
 }
 function entered(){return [...wrap.children].map(x=>x.value).join("")}
+function celebrate(){
+ const box=document.getElementById("celebrate");
+ for(let i=0;i<14;i++){const b=document.createElement("i");b.className="balloon";b.style.left=(Math.random()*92)+"%";b.style.setProperty("--h",Math.random()*360);b.style.setProperty("--d",(3.2+Math.random()*2.2)+"s");b.style.setProperty("--r",(-25+Math.random()*50)+"deg");b.style.animationDelay=(Math.random()*.8)+"s";box.appendChild(b)}
+ for(let i=0;i<70;i++){const x=document.createElement("i");x.className="confetti";x.style.left=(Math.random()*100)+"%";x.style.setProperty("--h",Math.random()*360);x.style.setProperty("--d",(1.8+Math.random()*2)+"s");x.style.animationDelay=(Math.random()*.7)+"s";box.appendChild(x)}
+}
 document.getElementById("unlock").onclick=()=>{
  const msg=document.getElementById("msg");
  if(entered().length<17){msg.textContent="Ještě chybí některá políčka 🙂";return}
- if(normalize(entered())===normalize(PASSWORD)){msg.textContent="Správně! 🎉";setTimeout(()=>location.href="pisnicka.html",500)}
+ if(normalize(entered())===normalize(PASSWORD)){msg.textContent="Správně! 🎉";celebrate();setTimeout(()=>location.href="pisnicka.html",3200)}
  else {msg.textContent="To ještě není ono. Zkus tajenku zkontrolovat ❤️"}
 };
 wrap.addEventListener("paste",e=>{
