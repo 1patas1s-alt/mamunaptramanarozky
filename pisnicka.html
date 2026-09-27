@@ -18,9 +18,23 @@ h1{font-size:30px;margin:10px 0 4px} .lead{margin:0 0 14px;color:#6e5d55}
 .title{font-size:20px;font-weight:850;margin-bottom:10px}audio{width:100%;display:block}
 .note{font-size:13px;color:#7b6a62;margin:10px 0 0;line-height:1.4}
 a.download{display:block;margin-top:12px;padding:13px 16px;border-radius:14px;background:var(--ink);color:white;text-decoration:none;font-weight:800}
+
+.decor{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.decor span{position:absolute;font-size:clamp(25px,7vw,46px);filter:drop-shadow(0 3px 4px #0002);animation:bob 4s ease-in-out infinite}
+.decor span:nth-child(1){left:2%;top:4%}.decor span:nth-child(2){right:2%;top:8%;animation-delay:-1s}
+.decor span:nth-child(3){left:1%;top:32%;animation-delay:-2s}.decor span:nth-child(4){right:1%;top:38%;animation-delay:-.5s}
+.decor span:nth-child(5){left:3%;top:68%;animation-delay:-1.5s}.decor span:nth-child(6){right:3%;top:72%;animation-delay:-2.5s}
+.decor span:nth-child(7){left:8%;bottom:2%;animation-delay:-.8s}.decor span:nth-child(8){right:8%;bottom:3%;animation-delay:-1.8s}
+main{position:relative;z-index:1}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-12px) rotate(5deg)}}
+@media(max-width:600px){.decor span{opacity:.75;font-size:28px}}
 </style>
 </head>
-<body><main>
+<body>
+<div class="decor" aria-hidden="true">
+<span>🎈</span><span>🎉</span><span>🎁</span><span>🎂</span>
+<span>🥳</span><span>🎊</span><span>🎈</span><span>✨</span>
+</div><main>
 <h1>Pro naši Mamunaptru ❤️</h1>
 <p class="lead">Všechno nejlepší, maminko!</p>
 <div class="slideshow" id="slideshow">
