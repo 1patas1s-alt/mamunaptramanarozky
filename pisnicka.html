@@ -38,7 +38,7 @@ const photos=[
 '1000054016.jpg','1000054018.jpg','1000054020.jpg','1000054022.jpg','1000054024.jpg','1000054026.jpg','1000054028.jpg','1000054030.jpg','1000054032.jpg','1000054034.jpg','1000053540.jpg','1000053561.jpg','1000053506.jpg','1000053072.jpg','1000052566.jpg','1000051999.webp','1000050626.jpg','1000050627.jpg','1000050611.jpg','1000050602.jpg'
 ];
 const wrap=document.getElementById('slideshow');
-photos.forEach((p,i)=>{const img=document.createElement('img');img.className='slide'+(i===0?' active':'');img.src=p;img.alt='Vzpomínka '+(i+1);img.loading=i<2?'eager':'lazy';wrap.prepend(img)});
+photos.forEach((p,i)=>{const img=document.createElement('img');img.className='slide'+(i===0?' active':'');img.src=p;img.alt='Vzpomínka '+(i+1);img.loading='eager';wrap.appendChild(img)});
 const slides=[...document.querySelectorAll('.slide')];
 const song=document.getElementById('song');
 let shown=-1;
