@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Narozeninové překvapení</title>
+<style>
+:root{--ink:#241f1b;--paper:#fffaf3;--accent:#c65f72;--soft:#f4dfdf}
+*{box-sizing:border-box}
+body{margin:0;min-height:100svh;background:linear-gradient(180deg,#f5e6df,#fffaf3 45%,#f6eee5);
+font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);display:grid;place-items:center;padding:18px}
+.card{width:min(100%,430px);background:rgba(255,250,243,.96);border-radius:28px;overflow:hidden;
+box-shadow:0 18px 60px #5c3e3526;border:1px solid #fff}
+.hero{position:relative;height:265px;overflow:hidden}
+.hero img{width:100%;height:100%;object-fit:cover;object-position:center 53%}
+.hero:after{content:"";position:absolute;inset:auto 0 0;height:45%;background:linear-gradient(transparent,rgba(36,31,27,.7))}
+.heroText{position:absolute;left:22px;right:22px;bottom:18px;color:white;z-index:2}
+.heroText small{letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+.heroText h1{font-size:30px;line-height:1.02;margin:5px 0 0}
+.content{padding:23px 20px 25px;text-align:center}
+p{margin:0 auto 17px;line-height:1.45;max-width:340px}
+.code{display:grid;grid-template-columns:repeat(9,1fr);gap:5px;margin:18px auto 10px;max-width:390px}
+.code input{width:100%;min-width:0;aspect-ratio:.78;border:1.5px solid #d8c8bf;border-radius:8px;background:white;
+text-align:center;font-size:18px;font-weight:750;text-transform:uppercase;outline:none}
+.code input:focus{border-color:var(--accent);box-shadow:0 0 0 3px #c65f721c}
+button{margin-top:12px;width:100%;border:0;border-radius:14px;padding:14px 18px;background:var(--ink);color:white;
+font-size:16px;font-weight:750}
+.msg{min-height:24px;margin-top:10px;font-size:14px;font-weight:650}
+.hint{font-size:12px;color:#786c65;margin-top:2px}
+@media(max-width:360px){.code{gap:3px}.code input{font-size:15px;border-radius:6px}.hero{height:235px}}
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="hero">
+    <img src="mama.jpg" alt="Narozeninová fotografie">
+    <div class="heroText"><small>Jen pro tebe</small><h1>Všechno nejlepší, mami! ❤️</h1></div>
+  </div>
+  <section class="content">
+    <p>Vyřešila jsi křížovku? Teď zadej <strong>17písmennou tajenku</strong> a odemkni svoje překvapení.</p>
+    <div class="code" id="code"></div>
+    <div class="hint">Diakritika nevadí. Každé písmeno patří do jednoho políčka.</div>
+    <button id="unlock">Odemknout překvapení</button>
+    <div class="msg" id="msg" aria-live="polite"></div>
+  </section>
+</main>
+<script>
+const PASSWORD = "PATRIKMÁNADRESU69";
+const normalize = s => s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().replace(/\s/g,"");
+const wrap=document.getElementById("code");
+for(let i=0;i<17;i++){
+  const el=document.createElement("input");
+  el.maxLength=1; el.autocomplete="off"; el.autocapitalize="characters"; el.inputMode="text";
+  el.setAttribute("aria-label",`Znak ${i+1} z 17`);
+  el.addEventListener("input",()=>{el.value=el.value.toUpperCase(); if(el.value && i<16) wrap.children[i+1].focus()});
+  el.addEventListener("keydown",e=>{if(e.key==="Backspace"&&!el.value&&i>0) wrap.children[i-1].focus()});
+  wrap.appendChild(el);
+}
+function entered(){return [...wrap.children].map(x=>x.value).join("")}
+document.getElementById("unlock").onclick=()=>{
+ const msg=document.getElementById("msg");
+ if(entered().length<17){msg.textContent="Ještě chybí některá políčka 🙂";return}
+ if(normalize(entered())===normalize(PASSWORD)){msg.textContent="Správně! 🎉";setTimeout(()=>location.href="pisnicka.html",500)}
+ else {msg.textContent="To ještě není ono. Zkus tajenku zkontrolovat ❤️"}
+};
+wrap.addEventListener("paste",e=>{
+ e.preventDefault(); const t=[...e.clipboardData.getData("text").trim()].slice(0,17);
+ t.forEach((ch,i)=>wrap.children[i].value=ch.toUpperCase());
+ wrap.children[Math.min(t.length,16)].focus();
+});
+wrap.children[0].focus();
+</script>
+</body></html>

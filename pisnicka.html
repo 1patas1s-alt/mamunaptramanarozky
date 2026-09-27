@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>MAMUNAPTRO ❤️</title>
+<style>
+:root{--paper:#fff8f1;--ink:#261f1c;--accent:#c65f72}
+*{box-sizing:border-box}
+body{margin:0;min-height:100svh;background:linear-gradient(180deg,#f0ded8,#fff8f1 45%,#f4e9df);font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);padding:16px}
+main{width:min(100%,480px);margin:auto;text-align:center}
+h1{font-size:30px;margin:10px 0 4px} .lead{margin:0 0 14px;color:#6e5d55}
+.slideshow{position:relative;width:100%;height:min(62svh,560px);min-height:390px;border-radius:25px;overflow:hidden;background:#171412;box-shadow:0 18px 55px #5c3e3530}
+.slide{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity 1.2s ease;background:#171412}
+.slide.active{opacity:1}
+.badge{position:absolute;left:14px;right:14px;bottom:14px;z-index:3;padding:10px 14px;border-radius:15px;background:#0008;color:#fff;font-weight:750;backdrop-filter:blur(8px)}
+.player{margin-top:14px;padding:16px;background:#fffdf9;border:1px solid #eaded5;border-radius:21px;box-shadow:0 10px 35px #5c3e3514}
+.title{font-size:20px;font-weight:850;margin-bottom:10px}audio{width:100%;display:block}
+.note{font-size:13px;color:#7b6a62;margin:10px 0 0;line-height:1.4}
+a.download{display:block;margin-top:12px;padding:13px 16px;border-radius:14px;background:var(--ink);color:white;text-decoration:none;font-weight:800}
+</style>
+</head>
+<body><main>
+<h1>Pro naši Mamunaptru ❤️</h1>
+<p class="lead">Všechno nejlepší, maminko!</p>
+<div class="slideshow" id="slideshow">
+  <div class="badge">🎵 MAMUNAPTRO</div>
+</div>
+<div class="player">
+  <div class="title">MAMUNAPTRO</div>
+  <audio id="song" controls preload="metadata"><source src="MAMUNAPTRO.mp3" type="audio/mpeg"></audio>
+  <p class="note">Fotky se během písničky automaticky střídají každých 10 sekund.</p>
+  <a class="download" href="MAMUNAPTRO.mp3" download>Stáhnout písničku MP3</a>
+</div>
+</main>
+<script>
+const photos=[
+'1000054016.jpg','1000054018.jpg','1000054020.jpg','1000054022.jpg','1000054024.jpg','1000054026.jpg','1000054028.jpg','1000054030.jpg','1000054032.jpg','1000054034.jpg','1000053540.jpg','1000053561.jpg','1000053506.jpg','1000053072.jpg','1000052566.jpg','1000051999.webp','1000050626.jpg','1000050627.jpg','1000050611.jpg','1000050602.jpg'
+];
+const wrap=document.getElementById('slideshow');
+photos.forEach((p,i)=>{const img=document.createElement('img');img.className='slide'+(i===0?' active':'');img.src='fotky/'+p;img.alt='Vzpomínka '+(i+1);img.loading=i<2?'eager':'lazy';wrap.prepend(img)});
+const slides=[...document.querySelectorAll('.slide')];
+const song=document.getElementById('song');
+let shown=-1;
+function sync(){
+  const i=Math.floor(song.currentTime/10)%slides.length;
+  if(i===shown)return;
+  slides.forEach((s,n)=>s.classList.toggle('active',n===i)); shown=i;
+}
+song.addEventListener('timeupdate',sync);song.addEventListener('seeked',sync);song.addEventListener('loadedmetadata',sync);sync();
+</script></body></html>
